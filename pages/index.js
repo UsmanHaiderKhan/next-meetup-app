@@ -1,23 +1,7 @@
 import MeetupList from "../components/meetups/MeetupList";
 import {MongoClient} from "mongodb";
-
-const DUMMY_MEETUPS = [
-    {
-        id: 'm1',
-        title: 'A First Meetup',
-        image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Stadtbild_M%C3%BCnchen.jpg/2560px-Stadtbild_M%C3%BCnchen.jpg',
-        address: 'Some address 5, 12345 Some City',
-        description: 'This is a first meetup!'
-    },
-    {
-        id: 'm2',
-        title: 'A Second Meetup',
-        image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Stadtbild_M%C3%BCnchen.jpg/2560px-Stadtbild_M%C3%BCnchen.jpg',
-        address: 'Some address 10, 12345 Some City',
-        description: 'This is a second meetup!'
-    }
-];
-
+import {Fragment} from "react";
+import Head from "next/head";
 
 // const [loadedMeetups, setLoadedMeetups,] = useState([]);
 // useEffect(() => {
@@ -27,7 +11,13 @@ const DUMMY_MEETUPS = [
 
 function HomePage(props) {
     return (
-        <MeetupList meetups={props.meetups}/>
+        <Fragment>
+            <Head>
+                <title>React Meetups</title>\
+                <meta name="description" content="Browse a huge list of highly active React meetups!"/>
+            </Head>
+            <MeetupList meetups={props.meetups}/>
+        </Fragment>
     )
 }
 
@@ -41,7 +31,7 @@ function HomePage(props) {
 //     }
 // }
 
-export async function getStaticProps(){
+export async function getStaticProps() {
     const client = await MongoClient.connect('mongodb+srv://uk47:Hm6gWspVAs98NCXM@cluster0.8r87qik.mongodb.net/meetups?retryWrites=true&w=majority&appName=Cluster0');
     const db = client.db();
     const meetupsCollection = db.collection('meetups');
@@ -59,4 +49,5 @@ export async function getStaticProps(){
         revalidate: 10
     }
 }
+
 export default HomePage;
